@@ -309,5 +309,15 @@ namespace TextDisplay
             label1.Text = toolStripTextBox1.Text;
             FormSizeChange();
         }
+
+        private void Timer1_Tick(object sender, EventArgs e)
+        {
+            (label1.ForeColor, BackColor) = (BackColor, label1.ForeColor);
+        }
+
+        private void BlinkToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            timer1.Enabled = blinkToolStripMenuItem.Checked = !blinkToolStripMenuItem.Checked;
+        }
     }
 }
