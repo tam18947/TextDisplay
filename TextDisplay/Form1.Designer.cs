@@ -37,6 +37,7 @@
             this.foreColorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.backgroundColorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.paddingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripTextBoxPadding = new System.Windows.Forms.ToolStripTextBox();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.resetToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
@@ -109,10 +110,18 @@
             // 
             // paddingToolStripMenuItem
             // 
+            this.paddingToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripTextBoxPadding});
             this.paddingToolStripMenuItem.Name = "paddingToolStripMenuItem";
             this.paddingToolStripMenuItem.Size = new System.Drawing.Size(176, 22);
             this.paddingToolStripMenuItem.Text = "Padding";
-            this.paddingToolStripMenuItem.Visible = false;
+            // 
+            // toolStripTextBoxPadding
+            // 
+            this.toolStripTextBoxPadding.Name = "toolStripTextBoxPadding";
+            this.toolStripTextBoxPadding.Size = new System.Drawing.Size(100, 23);
+            this.toolStripTextBoxPadding.Text = "0";
+            this.toolStripTextBoxPadding.TextChanged += new System.EventHandler(this.ToolStripTextBoxPadding_TextChanged);
             // 
             // toolStripSeparator1
             // 
@@ -237,5 +246,6 @@
         private ToolStripTextBox toolStripTextBox1;
         private ToolStripMenuItem blinkToolStripMenuItem;
         private System.Windows.Forms.Timer timer1;
+        private ToolStripTextBox toolStripTextBoxPadding;
     }
 }

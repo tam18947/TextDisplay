@@ -113,8 +113,9 @@ namespace TextDisplay
         /// </summary>
         private void FormSizeChange()
         {
-            //文字列の大きさを計測してサイズ変更
-            Size size = TextRenderer.MeasureText(label1.Text, label1.Font);
+            ////文字列の大きさを計測してサイズ変更
+            //Size size = TextRenderer.MeasureText(label1.Text, label1.Font);
+            Size size = label1.Size;
             if (size.Width == 0)
             {
                 size.Width = 20;
@@ -204,6 +205,8 @@ namespace TextDisplay
                 BackColor = param.BackColor;
                 label1.Font = new Font(param.Font.FontFamily, param.Font.Size);
                 toolStripTextBox1.Text = param.Text;
+                label1.Padding = new Padding(param.Padding);
+                toolStripTextBoxPadding.Text = param.Padding.ToString();
             }
             FormSizeChange();
         }
@@ -224,6 +227,7 @@ namespace TextDisplay
                     Strikeout = label1.Font.Strikeout,
                     Underline = label1.Font.Underline,
                 },
+                Padding = label1.Padding.All,
             };
             Serialize(param, "TextDisplay.config.json");
             Close();
@@ -278,6 +282,7 @@ namespace TextDisplay
             public Color ForeColor { get; set; } = Color.GhostWhite;
             public Color BackColor { get; set; } = Color.MediumBlue;
             public ParamTextFont Font { get; set; } = new ParamTextFont();
+            public int Padding { get; set; } = 0;
         }
         public class ParamTextFont
         {
@@ -318,6 +323,16 @@ namespace TextDisplay
         private void BlinkToolStripMenuItem_Click(object sender, EventArgs e)
         {
             timer1.Enabled = blinkToolStripMenuItem.Checked = !blinkToolStripMenuItem.Checked;
+        }
+
+        private void ToolStripTextBoxPadding_TextChanged(object sender, EventArgs e)
+        {
+            string str = toolStripTextBoxPadding.Text;
+            if (int.TryParse(str, out int val))
+            {
+                label1.Padding = new Padding(val);
+                FormSizeChange();
+            }
         }
     }
 }
