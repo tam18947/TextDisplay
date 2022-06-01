@@ -1,4 +1,6 @@
-using System.Text.Json;
+using System.Runtime.Serialization.Json;
+using System.Text;
+//using System.Text.Json;
 using Microsoft.VisualBasic;
 
 namespace TextDisplay
@@ -183,65 +185,97 @@ namespace TextDisplay
             if (colorDialog1.ShowDialog() == DialogResult.OK)
             {
                 BackColor = colorDialog1.Color;
-                label1.BackColor = colorDialog1.Color;
             }
         }
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            var _param = Deserialize<ParamTextBox?>("TextDisplay.config.json");
-            if (_param is not null)
+            var param = Deserialize<ParamLabel?>("TextDisplay.config.json");
+            Set(param);
+        }
+
+        private void Set(ParamLabel? paramLabel)
+        {
+            if (paramLabel is not null)
             {
-                param = _param;
+                param = paramLabel;
                 label1.Text = param.Text;
+                label1.ForeColor = param.ForeColor;
+                BackColor = param.BackColor;
                 label1.Font = new Font(param.Font.FontFamily, param.Font.Size);
+                toolStripTextBox1.Text = param.Text;
             }
             FormSizeChange();
         }
 
         private void CloseToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            param = new ParamTextBox
+            param = new ParamLabel
             {
                 Text = label1.Text,
                 ForeColor = label1.ForeColor,
-                BackColor = label1.BackColor,
+                BackColor = BackColor,
                 Font = new ParamTextFont
                 {
                     FontFamily = label1.Font.FontFamily.Name,
                     Size = label1.Font.Size,
+                    Bold = label1.Font.Bold,
+                    Italic = label1.Font.Italic,
+                    Strikeout = label1.Font.Strikeout,
+                    Underline = label1.Font.Underline,
                 },
             };
             Serialize(param, "TextDisplay.config.json");
             Close();
         }
 
+        /// <summary>
+        /// èëÇ´çûÇ›óp
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="data"></param>
+        /// <param name="jsonfile"></param>
         private static void Serialize<T>(T data, string jsonfile)
         {
-            var options = new JsonSerializerOptions
-            {
-                WriteIndented = true,
-            };
-
-            using var stream = new FileStream(jsonfile, FileMode.Create, FileAccess.Write);
-            JsonSerializer.SerializeAsync(stream, data, options);
+            //var options = new JsonSerializerOptions
+            //{
+            //    WriteIndented = true,
+            //};
+            //using var stream = new FileStream(jsonfile, FileMode.Create, FileAccess.Write);
+            //JsonSerializer.SerializeAsync(stream, data, options);
+            using var fs = new FileStream(jsonfile, FileMode.Create);
+            using var writer = JsonReaderWriterFactory.CreateJsonWriter(fs, Encoding.UTF8, true, true, "  ");
+            var serializer = new DataContractJsonSerializer(typeof(T));
+            serializer.WriteObject(writer, data);
         }
+        /// <summary>
+        /// ì«Ç›çûÇ›óp
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="jsonfile"></param>
+        /// <returns></returns>
         private static T? Deserialize<T>(string jsonfile)
         {
-            if (File.Exists(jsonfile))
+            try
             {
-                var jsonString = File.ReadAllText(jsonfile);
-                return JsonSerializer.Deserialize<T>(jsonString);
+                //var jsonString = File.ReadAllText(jsonfile);
+                //return JsonSerializer.Deserialize<T>(jsonString);
+                using var ms = new FileStream(jsonfile, FileMode.Open);
+                var serializer = new DataContractJsonSerializer(typeof(T));
+                return (T?)serializer.ReadObject(ms);
             }
-            return default;
+            catch (Exception)
+            {
+                return default;
+            }
         }
 
-        private ParamTextBox param = new();
+        private ParamLabel param = new();
 
-        public class ParamTextBox
+        public class ParamLabel
         {
             public string Text { get; set; } = "Right click to edit this message.";
-            public Color ForeColor { get; set; } = Color.White;
+            public Color ForeColor { get; set; } = Color.GhostWhite;
             public Color BackColor { get; set; } = Color.MediumBlue;
             public ParamTextFont Font { get; set; } = new ParamTextFont();
         }
@@ -249,6 +283,10 @@ namespace TextDisplay
         {
             public string FontFamily { get; set; } = "Yu Gothic UI";
             public float Size { get; set; } = 24;
+            public bool Bold { get; set; } = false;
+            public bool Italic { get; set; } = false;
+            public bool Strikeout { get; set; } = false;
+            public bool Underline { get; set; } = false;
         }
 
         private void TextToolStripMenuItem_Click(object sender, EventArgs e)
@@ -259,6 +297,17 @@ namespace TextDisplay
                 label1.Text = str;
                 FormSizeChange();
             }
+        }
+
+        private void ResetToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Set(new ParamLabel());
+        }
+
+        private void ToolStripTextBox1_TextChanged(object sender, EventArgs e)
+        {
+            label1.Text = toolStripTextBox1.Text;
+            FormSizeChange();
         }
     }
 }
