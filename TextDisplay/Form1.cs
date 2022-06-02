@@ -1,6 +1,5 @@
 using System.Runtime.Serialization.Json;
 using System.Text;
-//using System.Text.Json;
 using Microsoft.VisualBasic;
 
 namespace TextDisplay
@@ -12,6 +11,7 @@ namespace TextDisplay
             InitializeComponent();
         }
 
+        #region フォームの移動と表示関係
         /// <summary>
         /// フォームの移動
         /// </summary>
@@ -109,26 +109,14 @@ namespace TextDisplay
         }
 
         /// <summary>
-        /// フォームのサイズ変更
+        /// マウスのクリック位置を記憶
         /// </summary>
-        private void FormSizeChange()
-        {
-            ////文字列の大きさを計測してサイズ変更
-            //Size size = TextRenderer.MeasureText(label1.Text, label1.Font);
-            Size size = label1.Size;
-            if (size.Width == 0)
-            {
-                size.Width = 20;
-                size.Height= label1.Height;
-            }
-            Size = size;
-        }
-
-        ///マウスのクリック位置を記憶
         private Point mousePoint;
 
-        ///Form1のMouseDownイベントハンドラ
-        ///マウスのボタンが押されたとき
+        /// <summary>
+        /// Form1のMouseDownイベントハンドラ
+        /// マウスのボタンが押されたとき
+        /// </summary>
         private void Form1_MouseDown(object sender, MouseEventArgs e)
         {
             if ((e.Button & MouseButtons.Left) == MouseButtons.Left)
@@ -138,8 +126,10 @@ namespace TextDisplay
             }
         }
 
-        ///Form1のMouseMoveイベントハンドラ
-        ///マウスが動いたとき
+        /// <summary>
+        /// Form1のMouseMoveイベントハンドラ
+        /// マウスが動いたとき
+        /// </summary>
         private void Form1_MouseMove(object sender, MouseEventArgs e)
         {
             if ((e.Button & MouseButtons.Left) == MouseButtons.Left)
@@ -148,17 +138,86 @@ namespace TextDisplay
             }
         }
 
+        /// <summary>
+        /// フォーム移動時に画面端に吸着させるかどうかを変更する
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void SnapAssistToolStripMenuItem_Click(object sender, EventArgs e)
         {
             snapAssistToolStripMenuItem.Checked = !snapAssistToolStripMenuItem.Checked;
         }
 
+        /// <summary>
+        /// フォームを最前面に表示させるかどうかを変更する
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void TopmostToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            TopMost = !TopMost;
-            topmostToolStripMenuItem.Checked = TopMost;
+            topmostToolStripMenuItem.Checked = TopMost = !TopMost;
         }
 
+        private void Timer1_Tick(object sender, EventArgs e)
+        {
+            (label1.ForeColor, BackColor) = (BackColor, label1.ForeColor);
+        }
+
+        private void BlinkToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            timer1.Enabled = blinkToolStripMenuItem.Checked = !blinkToolStripMenuItem.Checked;
+        }
+        #endregion
+
+        #region テキストのデザイン関係
+        /// <summary>
+        /// フォームのサイズをコントロールのサイズに変更
+        /// </summary>
+        private void FormSizeChange()
+        {
+            Size size = label1.Size;
+            if (size.Width == 0)
+            {
+                size.Width = 20;
+                size.Height= label1.Height;
+            }
+            Size = size;
+        }
+
+        /// <summary>
+        /// 設定を反映させる
+        /// </summary>
+        /// <param name="config"></param>
+        private void SetConfig(Configuration? config)
+        {
+            if (config is not null)
+            {
+                label1.Text = config.Text;
+                label1.ForeColor = config.ForeColor;
+                base.BackColor = config.BackColor;
+                label1.Font = new Font(config.Font.FontFamily, config.Font.Size);
+                label1.Padding = new Padding(config.Padding);
+                toolStripTextBoxPadding.Text = config.Padding.ToString();
+            }
+            toolStripTextBox1.Text = label1.Text;
+            FormSizeChange();
+        }
+
+        /// <summary>
+        /// 設定をリセットする
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void ResetToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            SetConfig(new Configuration());
+        }
+
+        /// <summary>
+        /// フォントダイアログを表示してフォントを変更する
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void FontToolStripMenuItem_Click(object sender, EventArgs e)
         {
             fontDialog1.Font = label1.Font;
@@ -171,6 +230,11 @@ namespace TextDisplay
             }
         }
 
+        /// <summary>
+        /// カラーダイアログを表示して文字色を変更する
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void ForeColorToolStripMenuItem_Click(object sender, EventArgs e)
         {
             colorDialog1.Color = label1.ForeColor;
@@ -180,6 +244,11 @@ namespace TextDisplay
             }
         }
 
+        /// <summary>
+        /// カラーダイアログを表示して背景色を変更する
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void BackColorToolStripMenuItem_Click(object sender, EventArgs e)
         {
             colorDialog1.Color = BackColor;
@@ -189,36 +258,90 @@ namespace TextDisplay
             }
         }
 
-        private void Form1_Load(object sender, EventArgs e)
+        /// <summary>
+        /// テキストボックスを使って表示するテキストを変更する
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void ToolStripTextBox1_TextChanged(object sender, EventArgs e)
         {
-            var param = Deserialize<ParamLabel?>("TextDisplay.config.json");
-            Set(param);
-        }
-
-        private void Set(ParamLabel? paramLabel)
-        {
-            if (paramLabel is not null)
-            {
-                param = paramLabel;
-                label1.Text = param.Text;
-                label1.ForeColor = param.ForeColor;
-                BackColor = param.BackColor;
-                label1.Font = new Font(param.Font.FontFamily, param.Font.Size);
-                toolStripTextBox1.Text = param.Text;
-                label1.Padding = new Padding(param.Padding);
-                toolStripTextBoxPadding.Text = param.Padding.ToString();
-            }
+            label1.Text = toolStripTextBox1.Text;
             FormSizeChange();
         }
 
+        /// <summary>
+        /// VBのテキスト入力フォームコントロールを使ってテキストを変更する
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void TextToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            // キャンセルボタンを押したら戻り値が""になる
+            var str = Interaction.InputBox("", "Text", label1.Text);
+            // ""の場合は変更しない
+            if (str != "")
+            {
+                label1.Text = str;
+                FormSizeChange();
+            }
+        }
+
+        /// <summary>
+        /// Paddingを変更する
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void ToolStripTextBoxPadding_TextChanged(object sender, EventArgs e)
+        {
+            if (int.TryParse(toolStripTextBoxPadding.Text, out int val))
+            {
+                label1.Padding = new Padding(val);
+                FormSizeChange();
+                padding = val;
+            }
+            else if (toolStripTextBoxPadding.Text == "")
+            {
+                toolStripTextBoxPadding.Text = "0";
+            }
+            else
+            {
+                toolStripTextBoxPadding.Text = padding.ToString();
+            }
+        }
+
+        /// <summary>
+        /// Paddingの設定値
+        /// </summary>
+        private int padding = 0;
+        #endregion
+
+        #region シリアライズ関係
+        /// <summary>
+        /// フォームを起動するときに設定ファイルを読み込む
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Form1_Load(object sender, EventArgs e)
+        {
+            // 起動時に設定ファイルを読み込む
+            var param = DeSerialize<Configuration?>(configName);
+            SetConfig(param);
+        }
+
+        /// <summary>
+        /// フォームを閉じるときに設定ファイルを書き込む
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void CloseToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            param = new ParamLabel
+            // 終了時に設定ファイルをjsonで保存する
+            var config = new Configuration
             {
                 Text = label1.Text,
                 ForeColor = label1.ForeColor,
                 BackColor = BackColor,
-                Font = new ParamTextFont
+                Font = new ParamFont
                 {
                     FontFamily = label1.Font.FontFamily.Name,
                     Size = label1.Font.Size,
@@ -229,62 +352,20 @@ namespace TextDisplay
                 },
                 Padding = label1.Padding.All,
             };
-            Serialize(param, "TextDisplay.config.json");
+            Serialize(config, configName);
             Close();
         }
 
-        /// <summary>
-        /// 書き込み用
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="data"></param>
-        /// <param name="jsonfile"></param>
-        private static void Serialize<T>(T data, string jsonfile)
-        {
-            //var options = new JsonSerializerOptions
-            //{
-            //    WriteIndented = true,
-            //};
-            //using var stream = new FileStream(jsonfile, FileMode.Create, FileAccess.Write);
-            //JsonSerializer.SerializeAsync(stream, data, options);
-            using var fs = new FileStream(jsonfile, FileMode.Create);
-            using var writer = JsonReaderWriterFactory.CreateJsonWriter(fs, Encoding.UTF8, true, true, "  ");
-            var serializer = new DataContractJsonSerializer(typeof(T));
-            serializer.WriteObject(writer, data);
-        }
-        /// <summary>
-        /// 読み込み用
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="jsonfile"></param>
-        /// <returns></returns>
-        private static T? Deserialize<T>(string jsonfile)
-        {
-            try
-            {
-                //var jsonString = File.ReadAllText(jsonfile);
-                //return JsonSerializer.Deserialize<T>(jsonString);
-                using var ms = new FileStream(jsonfile, FileMode.Open);
-                var serializer = new DataContractJsonSerializer(typeof(T));
-                return (T?)serializer.ReadObject(ms);
-            }
-            catch (Exception)
-            {
-                return default;
-            }
-        }
-
-        private ParamLabel param = new();
-
-        public class ParamLabel
+        private const string configName = "TextDisplay.config.json";
+        public class Configuration
         {
             public string Text { get; set; } = "Right click to edit this message.";
             public Color ForeColor { get; set; } = Color.GhostWhite;
             public Color BackColor { get; set; } = Color.MediumBlue;
-            public ParamTextFont Font { get; set; } = new ParamTextFont();
+            public ParamFont Font { get; set; } = new ParamFont();
             public int Padding { get; set; } = 0;
         }
-        public class ParamTextFont
+        public class ParamFont
         {
             public string FontFamily { get; set; } = "Yu Gothic UI";
             public float Size { get; set; } = 24;
@@ -294,45 +375,38 @@ namespace TextDisplay
             public bool Underline { get; set; } = false;
         }
 
-        private void TextToolStripMenuItem_Click(object sender, EventArgs e)
+        /// <summary>
+        /// json書き込み用シリアライズ
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="data"></param>
+        /// <param name="jsonfile"></param>
+        private static void Serialize<T>(T data, string jsonfile)
         {
-            var str = Interaction.InputBox("", "Text", label1.Text);
-            if (str != "")
+            using var fs = new FileStream(jsonfile, FileMode.Create);
+            using var writer = JsonReaderWriterFactory.CreateJsonWriter(fs, Encoding.UTF8, true, true, "  ");
+            var serializer = new DataContractJsonSerializer(typeof(T));
+            serializer.WriteObject(writer, data);
+        }
+        /// <summary>
+        /// json読み込み用デシリアライズ
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="jsonfile"></param>
+        /// <returns></returns>
+        private static T? DeSerialize<T>(string jsonfile)
+        {
+            try
             {
-                label1.Text = str;
-                FormSizeChange();
+                using var ms = new FileStream(jsonfile, FileMode.Open);
+                var serializer = new DataContractJsonSerializer(typeof(T));
+                return (T?)serializer.ReadObject(ms);
+            }
+            catch
+            {
+                return default;
             }
         }
-
-        private void ResetToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            Set(new ParamLabel());
-        }
-
-        private void ToolStripTextBox1_TextChanged(object sender, EventArgs e)
-        {
-            label1.Text = toolStripTextBox1.Text;
-            FormSizeChange();
-        }
-
-        private void Timer1_Tick(object sender, EventArgs e)
-        {
-            (label1.ForeColor, BackColor) = (BackColor, label1.ForeColor);
-        }
-
-        private void BlinkToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            timer1.Enabled = blinkToolStripMenuItem.Checked = !blinkToolStripMenuItem.Checked;
-        }
-
-        private void ToolStripTextBoxPadding_TextChanged(object sender, EventArgs e)
-        {
-            string str = toolStripTextBoxPadding.Text;
-            if (int.TryParse(str, out int val))
-            {
-                label1.Padding = new Padding(val);
-                FormSizeChange();
-            }
-        }
+        #endregion
     }
 }
