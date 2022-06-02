@@ -352,7 +352,21 @@ namespace TextDisplay
                 },
                 Padding = label1.Padding.All,
             };
-            Serialize(config, configName);
+            // 設定がデフォルト値と異なっていたら保存する
+            Configuration defConfig = new();
+            if (config.Text != defConfig.Text ||
+                config.ForeColor != defConfig.ForeColor ||
+                config.BackColor != defConfig.BackColor ||
+                config.Font.FontFamily != defConfig.Font.FontFamily ||
+                config.Font.Size != defConfig.Font.Size ||
+                config.Font.Bold != defConfig.Font.Bold ||
+                config.Font.Italic != defConfig.Font.Italic ||
+                config.Font.Strikeout != defConfig.Font.Strikeout ||
+                config.Font.Underline != defConfig.Font.Underline ||
+                config.Padding != defConfig.Padding)
+            {
+                Serialize(config, configName);
+            }
             Close();
         }
 
