@@ -179,7 +179,7 @@ namespace TextDisplay
             if (size.Width == 0)
             {
                 size.Width = 20;
-                size.Height= label1.Height;
+                size.Height = label1.Height;
             }
             Size = size;
         }
