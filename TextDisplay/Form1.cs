@@ -198,6 +198,10 @@ namespace TextDisplay
                 label1.Font = new Font(config.Font.FontFamily, config.Font.Size);
                 label1.Padding = new Padding(config.Padding);
                 toolStripTextBoxPadding.Text = config.Padding.ToString();
+                snapAssistToolStripMenuItem.Checked = config.SnapAssist;
+                topmostToolStripMenuItem.Checked = TopMost = config.TopMost;
+                blinkToolStripMenuItem.Checked = timer1.Enabled = config.Blink;
+                autoSaveToolStripMenuItem.Checked = config.AutoSave;
             }
             toolStripTextBox1.Text = label1.Text;
             FormSizeChange();
@@ -364,6 +368,10 @@ namespace TextDisplay
                         Underline = label1.Font.Underline,
                     },
                     Padding = label1.Padding.All,
+                    SnapAssist = snapAssistToolStripMenuItem.Checked,
+                    TopMost = topmostToolStripMenuItem.Checked,
+                    Blink = blinkToolStripMenuItem.Checked,
+                    AutoSave = autoSaveToolStripMenuItem.Checked,
                 };
                 // 設定がデフォルト値と異なっていたら保存する
                 Configuration defConfig = new();
@@ -376,11 +384,45 @@ namespace TextDisplay
                     config.Font.Italic != defConfig.Font.Italic ||
                     config.Font.Strikeout != defConfig.Font.Strikeout ||
                     config.Font.Underline != defConfig.Font.Underline ||
-                    config.Padding != defConfig.Padding)
+                    config.Padding != defConfig.Padding ||
+                    config.SnapAssist != defConfig.SnapAssist ||
+                    config.TopMost != defConfig.TopMost ||
+                    config.Blink != defConfig.Blink ||
+                    config.AutoSave != defConfig.AutoSave)
                 {
                     Serialize(config, configName);
                 }
             }
+        }
+
+        /// <summary>
+        /// 設定ファイルをjsonで保存する
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void SaveToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var config = new Configuration
+            {
+                Text = label1.Text,
+                ForeColor = label1.ForeColor,
+                BackColor = BackColor,
+                Font = new ParamFont
+                {
+                    FontFamily = label1.Font.FontFamily.Name,
+                    Size = label1.Font.Size,
+                    Bold = label1.Font.Bold,
+                    Italic = label1.Font.Italic,
+                    Strikeout = label1.Font.Strikeout,
+                    Underline = label1.Font.Underline,
+                },
+                Padding = label1.Padding.All,
+                SnapAssist = snapAssistToolStripMenuItem.Checked,
+                TopMost = topmostToolStripMenuItem.Checked,
+                Blink = blinkToolStripMenuItem.Checked,
+                AutoSave = autoSaveToolStripMenuItem.Checked,
+            };
+            Serialize(config, configName);
         }
 
         /// <summary>
@@ -401,6 +443,10 @@ namespace TextDisplay
             public Color BackColor { get; set; } = Color.MediumBlue;
             public ParamFont Font { get; set; } = new ParamFont();
             public int Padding { get; set; } = 0;
+            public bool SnapAssist { get; set; } = true;
+            public bool TopMost { get; set; } = true;
+            public bool Blink { get; set; } = false;
+            public bool AutoSave { get; set; } = false;
         }
         public class ParamFont
         {
