@@ -329,45 +329,68 @@ namespace TextDisplay
         }
 
         /// <summary>
-        /// フォームを閉じるときに設定ファイルを書き込む
+        /// フォームを閉じる
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void CloseToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            // 終了時に設定ファイルをjsonで保存する
-            var config = new Configuration
-            {
-                Text = label1.Text,
-                ForeColor = label1.ForeColor,
-                BackColor = BackColor,
-                Font = new ParamFont
-                {
-                    FontFamily = label1.Font.FontFamily.Name,
-                    Size = label1.Font.Size,
-                    Bold = label1.Font.Bold,
-                    Italic = label1.Font.Italic,
-                    Strikeout = label1.Font.Strikeout,
-                    Underline = label1.Font.Underline,
-                },
-                Padding = label1.Padding.All,
-            };
-            // 設定がデフォルト値と異なっていたら保存する
-            Configuration defConfig = new();
-            if (config.Text != defConfig.Text ||
-                config.ForeColor != defConfig.ForeColor ||
-                config.BackColor != defConfig.BackColor ||
-                config.Font.FontFamily != defConfig.Font.FontFamily ||
-                config.Font.Size != defConfig.Font.Size ||
-                config.Font.Bold != defConfig.Font.Bold ||
-                config.Font.Italic != defConfig.Font.Italic ||
-                config.Font.Strikeout != defConfig.Font.Strikeout ||
-                config.Font.Underline != defConfig.Font.Underline ||
-                config.Padding != defConfig.Padding)
-            {
-                Serialize(config, configName);
-            }
             Close();
+        }
+
+        /// <summary>
+        /// フォームを閉じるときに設定ファイルを書き込む
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Form1_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            // AutoSaveにチェックが入っていたら保存する
+            if (autoSaveToolStripMenuItem.Checked)
+            {
+                // 終了時に設定ファイルをjsonで保存する
+                var config = new Configuration
+                {
+                    Text = label1.Text,
+                    ForeColor = label1.ForeColor,
+                    BackColor = BackColor,
+                    Font = new ParamFont
+                    {
+                        FontFamily = label1.Font.FontFamily.Name,
+                        Size = label1.Font.Size,
+                        Bold = label1.Font.Bold,
+                        Italic = label1.Font.Italic,
+                        Strikeout = label1.Font.Strikeout,
+                        Underline = label1.Font.Underline,
+                    },
+                    Padding = label1.Padding.All,
+                };
+                // 設定がデフォルト値と異なっていたら保存する
+                Configuration defConfig = new();
+                if (config.Text != defConfig.Text ||
+                    config.ForeColor != defConfig.ForeColor ||
+                    config.BackColor != defConfig.BackColor ||
+                    config.Font.FontFamily != defConfig.Font.FontFamily ||
+                    config.Font.Size != defConfig.Font.Size ||
+                    config.Font.Bold != defConfig.Font.Bold ||
+                    config.Font.Italic != defConfig.Font.Italic ||
+                    config.Font.Strikeout != defConfig.Font.Strikeout ||
+                    config.Font.Underline != defConfig.Font.Underline ||
+                    config.Padding != defConfig.Padding)
+                {
+                    Serialize(config, configName);
+                }
+            }
+        }
+
+        /// <summary>
+        /// 自動保存するかどうかを設定する
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void AutoSaveToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            autoSaveToolStripMenuItem.Checked = !autoSaveToolStripMenuItem.Checked;
         }
 
         private const string configName = "TextDisplay.config.json";

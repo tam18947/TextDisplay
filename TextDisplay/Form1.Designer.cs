@@ -44,6 +44,7 @@
             snapAssistToolStripMenuItem = new ToolStripMenuItem();
             topmostToolStripMenuItem = new ToolStripMenuItem();
             blinkToolStripMenuItem = new ToolStripMenuItem();
+            autoSaveToolStripMenuItem = new ToolStripMenuItem();
             toolStripSeparator3 = new ToolStripSeparator();
             closeToolStripMenuItem = new ToolStripMenuItem();
             fontDialog1 = new FontDialog();
@@ -55,9 +56,9 @@
             // 
             // contextMenuStrip1
             // 
-            contextMenuStrip1.Items.AddRange(new ToolStripItem[] { toolStripTextBox1, textToolStripMenuItem, fontToolStripMenuItem, foreColorToolStripMenuItem, backgroundColorToolStripMenuItem, paddingToolStripMenuItem, toolStripSeparator1, resetToolStripMenuItem, toolStripSeparator2, snapAssistToolStripMenuItem, topmostToolStripMenuItem, blinkToolStripMenuItem, toolStripSeparator3, closeToolStripMenuItem });
+            contextMenuStrip1.Items.AddRange(new ToolStripItem[] { toolStripTextBox1, textToolStripMenuItem, fontToolStripMenuItem, foreColorToolStripMenuItem, backgroundColorToolStripMenuItem, paddingToolStripMenuItem, toolStripSeparator1, resetToolStripMenuItem, toolStripSeparator2, snapAssistToolStripMenuItem, topmostToolStripMenuItem, blinkToolStripMenuItem, autoSaveToolStripMenuItem, toolStripSeparator3, closeToolStripMenuItem });
             contextMenuStrip1.Name = "contextMenuStrip1";
-            contextMenuStrip1.Size = new Size(177, 267);
+            contextMenuStrip1.Size = new Size(177, 289);
             // 
             // toolStripTextBox1
             // 
@@ -150,6 +151,13 @@
             blinkToolStripMenuItem.Text = "Blink";
             blinkToolStripMenuItem.Click += BlinkToolStripMenuItem_Click;
             // 
+            // autoSaveToolStripMenuItem
+            // 
+            autoSaveToolStripMenuItem.Name = "autoSaveToolStripMenuItem";
+            autoSaveToolStripMenuItem.Size = new Size(176, 22);
+            autoSaveToolStripMenuItem.Text = "Auto save";
+            autoSaveToolStripMenuItem.Click += AutoSaveToolStripMenuItem_Click;
+            // 
             // toolStripSeparator3
             // 
             toolStripSeparator3.Name = "toolStripSeparator3";
@@ -199,6 +207,7 @@
             Name = "Form1";
             Text = "Text display";
             TopMost = true;
+            FormClosing += Form1_FormClosing;
             Load += Form1_Load;
             MouseDown += Form1_MouseDown;
             MouseMove += Form1_MouseMove;
@@ -230,5 +239,6 @@
         private ToolStripMenuItem blinkToolStripMenuItem;
         private System.Windows.Forms.Timer timer1;
         private ToolStripTextBox toolStripTextBoxPadding;
+        private ToolStripMenuItem autoSaveToolStripMenuItem;
     }
 }
