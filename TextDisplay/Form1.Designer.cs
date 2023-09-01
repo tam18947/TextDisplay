@@ -108,6 +108,7 @@
             toolStripTextBoxPadding.Name = "toolStripTextBoxPadding";
             toolStripTextBoxPadding.Size = new Size(100, 23);
             toolStripTextBoxPadding.Text = "0";
+            toolStripTextBoxPadding.KeyDown += ToolStripTextBoxPadding_KeyDown;
             toolStripTextBoxPadding.TextChanged += ToolStripTextBoxPadding_TextChanged;
             // 
             // toolStripSeparator1

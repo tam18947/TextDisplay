@@ -317,6 +317,29 @@ namespace TextDisplay
         /// Paddingの設定値
         /// </summary>
         private int padding = 0;
+
+        /// <summary>
+        /// Paddingの設定時に↑↓が押されたときは値を +1，-1 にする
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void ToolStripTextBoxPadding_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (int.TryParse(toolStripTextBoxPadding.Text, out int val))
+            {
+                if (e.KeyCode == Keys.Up)
+                {
+                    if (val < 100)
+                    {
+                        toolStripTextBoxPadding.Text = (val + 1).ToString();
+                    }
+                }
+                else if (e.KeyCode == Keys.Down && val > 0)
+                {
+                    toolStripTextBoxPadding.Text = (val - 1).ToString();
+                }
+            }
+        }
         #endregion
 
         #region シリアライズ関係
