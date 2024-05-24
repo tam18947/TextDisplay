@@ -325,19 +325,17 @@ namespace TextDisplay
         /// <param name="e"></param>
         private void ToolStripTextBoxPadding_KeyDown(object sender, KeyEventArgs e)
         {
-            if (int.TryParse(toolStripTextBoxPadding.Text, out int val))
+            if (!int.TryParse(toolStripTextBoxPadding.Text, out int val)) { return; }
+            if (e.KeyCode == Keys.Up)
             {
-                if (e.KeyCode == Keys.Up)
+                if (val < 100)
                 {
-                    if (val < 100)
-                    {
-                        toolStripTextBoxPadding.Text = (val + 1).ToString();
-                    }
+                    toolStripTextBoxPadding.Text = (val + 1).ToString();
                 }
-                else if (e.KeyCode == Keys.Down && val > 0)
-                {
-                    toolStripTextBoxPadding.Text = (val - 1).ToString();
-                }
+            }
+            else if (e.KeyCode == Keys.Down && val > 0)
+            {
+                toolStripTextBoxPadding.Text = (val - 1).ToString();
             }
         }
         #endregion
@@ -375,7 +373,7 @@ namespace TextDisplay
             // AutoSaveにチェックが入っていたら保存する
             if (autoSaveToolStripMenuItem.Checked)
             {
-                // 終了時に設定ファイルをjsonで保存する
+                // 終了時に設定ファイルを.jsonで保存する
                 var config = new Configuration
                 {
                     Text = label1.Text,
@@ -419,7 +417,7 @@ namespace TextDisplay
         }
 
         /// <summary>
-        /// 設定ファイルをjsonで保存する
+        /// 設定ファイルを.jsonで保存する
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -486,10 +484,10 @@ namespace TextDisplay
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="data"></param>
-        /// <param name="jsonfile"></param>
-        private static void Serialize<T>(T data, string jsonfile)
+        /// <param name="jsonFile"></param>
+        private static void Serialize<T>(T data, string jsonFile)
         {
-            using var fs = new FileStream(jsonfile, FileMode.Create);
+            using var fs = new FileStream(jsonFile, FileMode.Create);
             using var writer = JsonReaderWriterFactory.CreateJsonWriter(fs, Encoding.UTF8, true, true, "  ");
             var serializer = new DataContractJsonSerializer(typeof(T));
             serializer.WriteObject(writer, data);
@@ -498,13 +496,13 @@ namespace TextDisplay
         /// json読み込み用デシリアライズ
         /// </summary>
         /// <typeparam name="T"></typeparam>
-        /// <param name="jsonfile"></param>
+        /// <param name="jsonFile"></param>
         /// <returns></returns>
-        private static T? DeSerialize<T>(string jsonfile)
+        private static T? DeSerialize<T>(string jsonFile)
         {
             try
             {
-                using var ms = new FileStream(jsonfile, FileMode.Open);
+                using var ms = new FileStream(jsonFile, FileMode.Open);
                 var serializer = new DataContractJsonSerializer(typeof(T));
                 return (T?)serializer.ReadObject(ms);
             }
