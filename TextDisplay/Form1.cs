@@ -274,6 +274,21 @@ namespace TextDisplay
         }
 
         /// <summary>
+        /// テキスト編集で Enter キーが入力されたらテキストを改行指せる
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void ToolStripTextBox1_KeyDown(object sender, KeyEventArgs e)
+        {
+            // Enter key 以外なら return
+            if (e.KeyData != Keys.Enter) { return; }
+            var val = toolStripTextBox1.SelectionStart;
+            var str = toolStripTextBox1.Text;
+            toolStripTextBox1.Text = str.Insert(val, "\r\n");
+            toolStripTextBox1.SelectionStart = val + 2;
+        }
+
+        /// <summary>
         /// VBのテキスト入力フォームコントロールを使ってテキストを変更する
         /// </summary>
         /// <param name="sender"></param>
@@ -283,11 +298,9 @@ namespace TextDisplay
             // キャンセルボタンを押したら戻り値が""になる
             var str = Interaction.InputBox("", "Text", label1.Text);
             // ""の場合は変更しない
-            if (str != "")
-            {
-                label1.Text = str;
-                FormSizeChange();
-            }
+            if (str == "") { return; }
+            label1.Text = str;
+            FormSizeChange();
         }
 
         /// <summary>
@@ -371,48 +384,46 @@ namespace TextDisplay
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
         {
             // AutoSaveにチェックが入っていたら保存する
-            if (autoSaveToolStripMenuItem.Checked)
+            if (!autoSaveToolStripMenuItem.Checked) { return; }
+            // 終了時に設定ファイルを.jsonで保存する
+            var config = new Configuration
             {
-                // 終了時に設定ファイルを.jsonで保存する
-                var config = new Configuration
+                Text = label1.Text,
+                ForeColor = label1.ForeColor,
+                BackColor = BackColor,
+                Font = new ParamFont
                 {
-                    Text = label1.Text,
-                    ForeColor = label1.ForeColor,
-                    BackColor = BackColor,
-                    Font = new ParamFont
-                    {
-                        FontFamily = label1.Font.FontFamily.Name,
-                        Size = label1.Font.Size,
-                        Bold = label1.Font.Bold,
-                        Italic = label1.Font.Italic,
-                        Strikeout = label1.Font.Strikeout,
-                        Underline = label1.Font.Underline,
-                    },
-                    Padding = label1.Padding.All,
-                    SnapAssist = snapAssistToolStripMenuItem.Checked,
-                    TopMost = topmostToolStripMenuItem.Checked,
-                    Blink = blinkToolStripMenuItem.Checked,
-                    AutoSave = autoSaveToolStripMenuItem.Checked,
-                };
-                // 設定がデフォルト値と異なっていたら保存する
-                Configuration defConfig = new();
-                if (config.Text != defConfig.Text ||
-                    config.ForeColor != defConfig.ForeColor ||
-                    config.BackColor != defConfig.BackColor ||
-                    config.Font.FontFamily != defConfig.Font.FontFamily ||
-                    config.Font.Size != defConfig.Font.Size ||
-                    config.Font.Bold != defConfig.Font.Bold ||
-                    config.Font.Italic != defConfig.Font.Italic ||
-                    config.Font.Strikeout != defConfig.Font.Strikeout ||
-                    config.Font.Underline != defConfig.Font.Underline ||
-                    config.Padding != defConfig.Padding ||
-                    config.SnapAssist != defConfig.SnapAssist ||
-                    config.TopMost != defConfig.TopMost ||
-                    config.Blink != defConfig.Blink ||
-                    config.AutoSave != defConfig.AutoSave)
-                {
-                    Serialize(config, configName);
-                }
+                    FontFamily = label1.Font.FontFamily.Name,
+                    Size = label1.Font.Size,
+                    Bold = label1.Font.Bold,
+                    Italic = label1.Font.Italic,
+                    Strikeout = label1.Font.Strikeout,
+                    Underline = label1.Font.Underline,
+                },
+                Padding = label1.Padding.All,
+                SnapAssist = snapAssistToolStripMenuItem.Checked,
+                TopMost = topmostToolStripMenuItem.Checked,
+                Blink = blinkToolStripMenuItem.Checked,
+                AutoSave = autoSaveToolStripMenuItem.Checked,
+            };
+            // 設定がデフォルト値と異なっていたら保存する
+            Configuration defConfig = new();
+            if (config.Text != defConfig.Text ||
+                config.ForeColor != defConfig.ForeColor ||
+                config.BackColor != defConfig.BackColor ||
+                config.Font.FontFamily != defConfig.Font.FontFamily ||
+                config.Font.Size != defConfig.Font.Size ||
+                config.Font.Bold != defConfig.Font.Bold ||
+                config.Font.Italic != defConfig.Font.Italic ||
+                config.Font.Strikeout != defConfig.Font.Strikeout ||
+                config.Font.Underline != defConfig.Font.Underline ||
+                config.Padding != defConfig.Padding ||
+                config.SnapAssist != defConfig.SnapAssist ||
+                config.TopMost != defConfig.TopMost ||
+                config.Blink != defConfig.Blink ||
+                config.AutoSave != defConfig.AutoSave)
+            {
+                Serialize(config, configName);
             }
         }
 
