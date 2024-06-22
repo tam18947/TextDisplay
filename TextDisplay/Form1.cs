@@ -1,6 +1,5 @@
 using System.Runtime.Serialization.Json;
 using System.Text;
-using Microsoft.VisualBasic;
 
 namespace TextDisplay
 {
@@ -286,21 +285,6 @@ namespace TextDisplay
             var str = toolStripTextBox1.Text;
             toolStripTextBox1.Text = str.Insert(val, "\r\n");
             toolStripTextBox1.SelectionStart = val + 2;
-        }
-
-        /// <summary>
-        /// VBのテキスト入力フォームコントロールを使ってテキストを変更する
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void TextToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            // キャンセルボタンを押したら戻り値が""になる
-            var str = Interaction.InputBox("", "Text", label1.Text);
-            // ""の場合は変更しない
-            if (str == "") { return; }
-            label1.Text = str;
-            FormSizeChange();
         }
 
         /// <summary>

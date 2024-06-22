@@ -32,7 +32,6 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             contextMenuStrip1 = new ContextMenuStrip(components);
             toolStripTextBox1 = new ToolStripTextBox();
-            textToolStripMenuItem = new ToolStripMenuItem();
             fontToolStripMenuItem = new ToolStripMenuItem();
             foreColorToolStripMenuItem = new ToolStripMenuItem();
             backgroundColorToolStripMenuItem = new ToolStripMenuItem();
@@ -57,9 +56,9 @@
             // 
             // contextMenuStrip1
             // 
-            contextMenuStrip1.Items.AddRange(new ToolStripItem[] { toolStripTextBox1, textToolStripMenuItem, fontToolStripMenuItem, foreColorToolStripMenuItem, backgroundColorToolStripMenuItem, paddingToolStripMenuItem, toolStripSeparator1, snapAssistToolStripMenuItem, topmostToolStripMenuItem, blinkToolStripMenuItem, autoSaveToolStripMenuItem, toolStripSeparator2, saveToolStripMenuItem, resetToolStripMenuItem, toolStripSeparator3, closeToolStripMenuItem });
+            contextMenuStrip1.Items.AddRange(new ToolStripItem[] { toolStripTextBox1, fontToolStripMenuItem, foreColorToolStripMenuItem, backgroundColorToolStripMenuItem, paddingToolStripMenuItem, toolStripSeparator1, snapAssistToolStripMenuItem, topmostToolStripMenuItem, blinkToolStripMenuItem, autoSaveToolStripMenuItem, toolStripSeparator2, saveToolStripMenuItem, resetToolStripMenuItem, toolStripSeparator3, closeToolStripMenuItem });
             contextMenuStrip1.Name = "contextMenuStrip1";
-            contextMenuStrip1.Size = new Size(177, 311);
+            contextMenuStrip1.Size = new Size(177, 289);
             // 
             // toolStripTextBox1
             // 
@@ -67,14 +66,6 @@
             toolStripTextBox1.Size = new Size(100, 23);
             toolStripTextBox1.KeyDown += ToolStripTextBox1_KeyDown;
             toolStripTextBox1.TextChanged += ToolStripTextBox1_TextChanged;
-            // 
-            // textToolStripMenuItem
-            // 
-            textToolStripMenuItem.Name = "textToolStripMenuItem";
-            textToolStripMenuItem.Size = new Size(176, 22);
-            textToolStripMenuItem.Text = "Text...";
-            textToolStripMenuItem.Visible = false;
-            textToolStripMenuItem.Click += TextToolStripMenuItem_Click;
             // 
             // fontToolStripMenuItem
             // 
@@ -240,7 +231,6 @@
         private ToolStripSeparator toolStripSeparator1;
         private ColorDialog colorDialog1;
         private ToolStripMenuItem foreColorToolStripMenuItem;
-        private ToolStripMenuItem textToolStripMenuItem;
         private Label label1;
         private ToolStripMenuItem resetToolStripMenuItem;
         private ToolStripSeparator toolStripSeparator3;
