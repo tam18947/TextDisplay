@@ -454,7 +454,7 @@ namespace TextDisplay
         private const string configName = "TextDisplay.config.json";
         public class Configuration
         {
-            public string Text { get; set; } = "Right click to edit this message.";
+            public string Text { get; set; } = "右クリックしてこのメッセージを編集する";
             public Color ForeColor { get; set; } = Color.GhostWhite;
             public Color BackColor { get; set; } = Color.MediumBlue;
             public ParamFont Font { get; set; } = new ParamFont();

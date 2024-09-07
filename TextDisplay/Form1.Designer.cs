@@ -58,7 +58,7 @@
             // 
             contextMenuStrip1.Items.AddRange(new ToolStripItem[] { toolStripTextBox1, fontToolStripMenuItem, foreColorToolStripMenuItem, backgroundColorToolStripMenuItem, paddingToolStripMenuItem, toolStripSeparator1, snapAssistToolStripMenuItem, topmostToolStripMenuItem, blinkToolStripMenuItem, autoSaveToolStripMenuItem, toolStripSeparator2, saveToolStripMenuItem, resetToolStripMenuItem, toolStripSeparator3, closeToolStripMenuItem });
             contextMenuStrip1.Name = "contextMenuStrip1";
-            contextMenuStrip1.Size = new Size(177, 289);
+            contextMenuStrip1.Size = new Size(161, 289);
             // 
             // toolStripTextBox1
             // 
@@ -70,30 +70,30 @@
             // fontToolStripMenuItem
             // 
             fontToolStripMenuItem.Name = "fontToolStripMenuItem";
-            fontToolStripMenuItem.Size = new Size(176, 22);
-            fontToolStripMenuItem.Text = "Font...";
+            fontToolStripMenuItem.Size = new Size(160, 22);
+            fontToolStripMenuItem.Text = "フォント...";
             fontToolStripMenuItem.Click += FontToolStripMenuItem_Click;
             // 
             // foreColorToolStripMenuItem
             // 
             foreColorToolStripMenuItem.Name = "foreColorToolStripMenuItem";
-            foreColorToolStripMenuItem.Size = new Size(176, 22);
-            foreColorToolStripMenuItem.Text = "Text color...";
+            foreColorToolStripMenuItem.Size = new Size(160, 22);
+            foreColorToolStripMenuItem.Text = "文字色...";
             foreColorToolStripMenuItem.Click += ForeColorToolStripMenuItem_Click;
             // 
             // backgroundColorToolStripMenuItem
             // 
             backgroundColorToolStripMenuItem.Name = "backgroundColorToolStripMenuItem";
-            backgroundColorToolStripMenuItem.Size = new Size(176, 22);
-            backgroundColorToolStripMenuItem.Text = "Background color...";
+            backgroundColorToolStripMenuItem.Size = new Size(160, 22);
+            backgroundColorToolStripMenuItem.Text = "背景色...";
             backgroundColorToolStripMenuItem.Click += BackColorToolStripMenuItem_Click;
             // 
             // paddingToolStripMenuItem
             // 
             paddingToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { toolStripTextBoxPadding });
             paddingToolStripMenuItem.Name = "paddingToolStripMenuItem";
-            paddingToolStripMenuItem.Size = new Size(176, 22);
-            paddingToolStripMenuItem.Text = "Padding";
+            paddingToolStripMenuItem.Size = new Size(160, 22);
+            paddingToolStripMenuItem.Text = "パディング";
             // 
             // toolStripTextBoxPadding
             // 
@@ -106,15 +106,15 @@
             // toolStripSeparator1
             // 
             toolStripSeparator1.Name = "toolStripSeparator1";
-            toolStripSeparator1.Size = new Size(173, 6);
+            toolStripSeparator1.Size = new Size(157, 6);
             // 
             // snapAssistToolStripMenuItem
             // 
             snapAssistToolStripMenuItem.Checked = true;
             snapAssistToolStripMenuItem.CheckState = CheckState.Checked;
             snapAssistToolStripMenuItem.Name = "snapAssistToolStripMenuItem";
-            snapAssistToolStripMenuItem.Size = new Size(176, 22);
-            snapAssistToolStripMenuItem.Text = "Snap assist";
+            snapAssistToolStripMenuItem.Size = new Size(160, 22);
+            snapAssistToolStripMenuItem.Text = "スナップアシスト";
             snapAssistToolStripMenuItem.Click += SnapAssistToolStripMenuItem_Click;
             // 
             // topmostToolStripMenuItem
@@ -122,53 +122,53 @@
             topmostToolStripMenuItem.Checked = true;
             topmostToolStripMenuItem.CheckState = CheckState.Checked;
             topmostToolStripMenuItem.Name = "topmostToolStripMenuItem";
-            topmostToolStripMenuItem.Size = new Size(176, 22);
-            topmostToolStripMenuItem.Text = "Topmost";
+            topmostToolStripMenuItem.Size = new Size(160, 22);
+            topmostToolStripMenuItem.Text = "最前面";
             topmostToolStripMenuItem.Click += TopmostToolStripMenuItem_Click;
             // 
             // blinkToolStripMenuItem
             // 
             blinkToolStripMenuItem.Name = "blinkToolStripMenuItem";
-            blinkToolStripMenuItem.Size = new Size(176, 22);
-            blinkToolStripMenuItem.Text = "Blink";
+            blinkToolStripMenuItem.Size = new Size(160, 22);
+            blinkToolStripMenuItem.Text = "点滅";
             blinkToolStripMenuItem.Click += BlinkToolStripMenuItem_Click;
             // 
             // autoSaveToolStripMenuItem
             // 
             autoSaveToolStripMenuItem.Name = "autoSaveToolStripMenuItem";
-            autoSaveToolStripMenuItem.Size = new Size(176, 22);
-            autoSaveToolStripMenuItem.Text = "Auto save";
+            autoSaveToolStripMenuItem.Size = new Size(160, 22);
+            autoSaveToolStripMenuItem.Text = "自動保存";
             autoSaveToolStripMenuItem.Click += AutoSaveToolStripMenuItem_Click;
             // 
             // toolStripSeparator2
             // 
             toolStripSeparator2.Name = "toolStripSeparator2";
-            toolStripSeparator2.Size = new Size(173, 6);
+            toolStripSeparator2.Size = new Size(157, 6);
             // 
             // saveToolStripMenuItem
             // 
             saveToolStripMenuItem.Name = "saveToolStripMenuItem";
-            saveToolStripMenuItem.Size = new Size(176, 22);
-            saveToolStripMenuItem.Text = "Save settings";
+            saveToolStripMenuItem.Size = new Size(160, 22);
+            saveToolStripMenuItem.Text = "設定の保存";
             saveToolStripMenuItem.Click += SaveToolStripMenuItem_Click;
             // 
             // resetToolStripMenuItem
             // 
             resetToolStripMenuItem.Name = "resetToolStripMenuItem";
-            resetToolStripMenuItem.Size = new Size(176, 22);
-            resetToolStripMenuItem.Text = "Reset settings";
+            resetToolStripMenuItem.Size = new Size(160, 22);
+            resetToolStripMenuItem.Text = "設定のリセット";
             resetToolStripMenuItem.Click += ResetToolStripMenuItem_Click;
             // 
             // toolStripSeparator3
             // 
             toolStripSeparator3.Name = "toolStripSeparator3";
-            toolStripSeparator3.Size = new Size(173, 6);
+            toolStripSeparator3.Size = new Size(157, 6);
             // 
             // closeToolStripMenuItem
             // 
             closeToolStripMenuItem.Name = "closeToolStripMenuItem";
-            closeToolStripMenuItem.Size = new Size(176, 22);
-            closeToolStripMenuItem.Text = "Close(&C)";
+            closeToolStripMenuItem.Size = new Size(160, 22);
+            closeToolStripMenuItem.Text = "終了(&X)";
             closeToolStripMenuItem.Click += CloseToolStripMenuItem_Click;
             // 
             // fontDialog1
@@ -184,9 +184,9 @@
             label1.ForeColor = Color.White;
             label1.Location = new Point(0, 0);
             label1.Name = "label1";
-            label1.Size = new Size(470, 45);
+            label1.Size = new Size(491, 45);
             label1.TabIndex = 2;
-            label1.Text = "Right click to edit this message.";
+            label1.Text = "右クリックしてこのメッセージを編集する";
             label1.MouseDown += Form1_MouseDown;
             label1.MouseMove += Form1_MouseMove;
             // 
@@ -200,7 +200,7 @@
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.MediumBlue;
-            ClientSize = new Size(500, 100);
+            ClientSize = new Size(500, 50);
             ContextMenuStrip = contextMenuStrip1;
             Controls.Add(label1);
             FormBorderStyle = FormBorderStyle.None;
